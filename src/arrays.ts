@@ -1,3 +1,5 @@
+import { isNumberObject } from "util/types";
+
 /**
  * Consume an array of numbers, and return a new array containing
  * JUST the first and last number. If there are no elements, return
@@ -35,7 +37,15 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    let convert: number[] = [];
+    for (let num of numbers) {
+        if (Number(num) && !isNaN(Number(num))) {
+            convert.push(Number(num));
+        } else {
+            convert.push(0);
+        }
+    }
+    return convert;
 }
 
 /**
