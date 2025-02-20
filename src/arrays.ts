@@ -55,7 +55,12 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    let newList = [...messages];
+    newList = newList.filter((msg) => !msg.endsWith("?"));
+    newList = newList.map((msg) =>
+        msg.endsWith("!") ? msg.toUpperCase() : msg,
+    );
+    return newList;
 };
 
 /**
@@ -63,7 +68,9 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    let count: number = 0;
+    words.filter((word) => word.length < 4 ? count++: count);
+    return count;
 }
 
 /**
@@ -72,7 +79,8 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    const allowColors = colors.every((color: string): boolean => color == 'red' || color == 'blue' || color == 'green');
+    return allowColors;
 }
 
 /**
@@ -83,7 +91,12 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+
+    const sum = addends.reduce((acc, num) => acc + num, 0);
+    return `${sum}=${addends.join("+")}`;
 }
 
 /**
@@ -96,5 +109,15 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    let index = values.findIndex((num) => num < 0); // Find first negative index
+    let sum = 0;
+
+    if (index === -1) {
+        sum = values.reduce((acc, num) => acc + num, 0);
+        return [...values, sum];
+    }
+
+    sum = values.slice(0, index).reduce((acc, num) => acc + num, 0);
+
+    return [...values.slice(0, index + 1), sum, ...values.slice(index + 1)];
 }
