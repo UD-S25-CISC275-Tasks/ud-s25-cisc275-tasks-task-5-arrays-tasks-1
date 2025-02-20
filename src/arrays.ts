@@ -131,7 +131,22 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length == 0) {
+        return "0=0";
+    }
+    let total: number = 0;
+    let newArr: string[] = [];
+    for (let add of addends) {
+        if (add == addends.slice(-1)[0]) {
+            newArr.push(String(add));
+        } else {
+            newArr.push(add + "+");
+        }
+        total += add;
+    }
+    newArr.splice(0, 0, total + "=");
+    console.log(newArr.join);
+    return newArr.join().split(",").join("");
 }
 
 /**
