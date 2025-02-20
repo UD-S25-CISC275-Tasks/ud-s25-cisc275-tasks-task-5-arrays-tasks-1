@@ -5,7 +5,15 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    const len = numbers.length;
+    if (!len) {
+        return numbers;
+    }
+    if (len === 1) {
+        const numbers_at_zero = numbers[0];
+        return [numbers_at_zero, numbers_at_zero];
+    }
+    return [numbers[0], numbers[len - 1]];
 }
 
 /**
@@ -13,7 +21,7 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    return numbers.map((n) => n * 3);
 }
 
 /**
@@ -21,7 +29,13 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    return numbers.map((str) => {
+        const elem = parseInt(str);
+        if (Number.isNaN(elem)) {
+            return 0;
+        }
+        return elem;
+    });
 }
 
 /**
@@ -32,7 +46,17 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    return amounts.map((str) => {
+        if (str[0] === "$") {
+            const no_dollar_sign = parseFloat(str.slice(1));
+            return Number.isNaN(no_dollar_sign) ? 0 : no_dollar_sign;
+        }
+        const elem = parseInt(str);
+        if (Number.isNaN(elem)) {
+            return 0;
+        }
+        return elem;
+    });
 };
 
 /**
@@ -41,7 +65,12 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    const no_questions = messages.filter((msg) =>
+        msg[msg.length - 1] === "?" ? false : true,
+    );
+    return no_questions.map((msg) => {
+        return msg[msg.length - 1] === "!" ? msg.toUpperCase() : msg;
+    });
 };
 
 /**
@@ -49,7 +78,13 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    let ret: number = 0;
+    words.forEach((word) => {
+        if (word.length < 4) {
+            ret++;
+        }
+    });
+    return ret;
 }
 
 /**
@@ -58,7 +93,17 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    }
+    const good_colors = ["red", "blue", "green"];
+    let false_flag: boolean = true;
+    colors.forEach((color) => {
+        if (!good_colors.includes(color)) {
+            false_flag = false;
+        }
+    });
+    return false_flag;
 }
 
 /**
@@ -69,7 +114,16 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    if (addends.length === 0) {
+        return "0=0";
+    }
+    let ret: string = "";
+    let sum: number = 0;
+    addends.forEach((num) => {
+        sum += num;
+        ret += num + "+";
+    });
+    return sum + "=" + ret.slice(0, ret.length - 1);
 }
 
 /**
@@ -82,5 +136,25 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    let ret_arr: number[] = [...values];
+    const original_length: number = ret_arr.length;
+    if (ret_arr.length === 0) {
+        return [0];
+    }
+    let already_spliced: boolean = false;
+    let sum = 0;
+    ret_arr.forEach((num, i) => {
+        if (num < 0 && !already_spliced) {
+            ret_arr.splice(i + 1, 0, sum);
+            already_spliced = true;
+        }
+        if (num > 0) {
+            sum += num;
+        }
+    });
+    if (ret_arr.length === original_length) {
+        ret_arr.push(sum);
+    }
+    console.log(ret_arr);
+    return ret_arr;
 }
