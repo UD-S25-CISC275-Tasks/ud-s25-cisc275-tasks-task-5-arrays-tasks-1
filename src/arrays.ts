@@ -9,11 +9,9 @@ export function bookEndList(numbers: number[]): number[] {
     if (numbers.length === 0) {
         return newNums;
     } else if (numbers.length === 1) {
-        newNums = [...numbers];
-        newNums.push(numbers[0]);
+        newNums = [numbers[0], numbers[0]];
     } else {
-        newNums.push(numbers[0]);
-        newNums.push(numbers[numbers.length - 1]);
+        newNums = [numbers[0], numbers[numbers.length - 1]];
     }
     return newNums;
 }
@@ -90,7 +88,14 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    if (colors.length === 0) {
+        return true;
+    }
+    let RGBtrue: boolean = colors.every(
+        (color: string): boolean =>
+            color === "red" || color === "blue" || color === "green",
+    );
+    return RGBtrue;
 }
 
 /**
@@ -101,7 +106,16 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    let sum: number = 0;
+    const adds: string = addends.join("+");
+    let statement: string;
+    if (addends.length > 0) {
+        sum = addends.reduce((total: number, num: number) => total + num, 0);
+        statement = sum + "=" + adds;
+    } else {
+        statement = sum + "=" + "0";
+    }
+    return statement;
 }
 
 /**
@@ -114,5 +128,11 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    const firstNeg: number = values.find((value: number): boolean => value < 0);
+    let pos: number[];
+    if (!firstNeg) {
+        pos = [...values];
+        po;
+    }
+    return pos;
 }
